@@ -1,3 +1,5 @@
+package task1
+
 import java.lang.Exception
 import java.lang.Math.toRadians
 import kotlin.math.cos
