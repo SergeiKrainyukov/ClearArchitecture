@@ -10,7 +10,7 @@ class Robot(
     private var y: Double = 0.0,
     private var angleDegrees: Double = 0.0,
     private var setParam: SetParams = SetParams.WATER,
-    private val commandParser: CommandParser
+    private val commandParser: CommandParser = CommandParserImpl()
 ) {
 
     fun getCommands(commands: Array<String>) {
@@ -41,25 +41,29 @@ class Robot(
         x += deltaX
         y += deltaY
 
-        println("POS $x,$y")
+        transferToCleaner("POS $x,$y")
     }
 
     private fun turn(angleDeltaDegrees: Double) {
         angleDegrees += angleDeltaDegrees
-        println("ANGLE $angleDegrees")
+        transferToCleaner("ANGLE $angleDegrees")
     }
 
     private fun set(setParam: SetParams) {
         this.setParam = setParam
-        println("STATE ".plus(setParam))
+        transferToCleaner("STATE ".plus(setParam))
     }
 
     private fun start() {
-        println("START WITH ".plus(setParam))
+        transferToCleaner("START WITH ".plus(setParam))
     }
 
     private fun stop() {
-        println("STOP")
+        transferToCleaner("STOP")
+    }
+
+    private fun transferToCleaner(message: String) {
+        println(message)
     }
 }
 
