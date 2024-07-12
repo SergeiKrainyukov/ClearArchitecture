@@ -1,7 +1,6 @@
-package task3
+package task4
 
 import java.lang.Exception
-import java.lang.Math.toRadians
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -9,13 +8,27 @@ class Robot(
     private var x: Double = 0.0,
     private var y: Double = 0.0,
     private var angleDegrees: Double = 0.0,
-    private var setParam: SetParams = SetParams.WATER,
-    private val commandParser: CommandParser = CommandParserImpl()
+    private var setParam: SetParams = SetParams.WATER
 ) {
+    fun make(commands: Array<String>) {
+        commands.forEach(::parseCommand)
+    }
 
-    fun getCommands(commands: Array<String>) {
-        commands.forEach {
-            invokeCommand(commandParser.parseCommand(it))
+    private fun parseCommand(command: String) {
+        when {
+            command.contains("move") ->
+                invokeCommand(Command.Move(command.split(" ")[1].toDouble()))
+
+            command.contains("turn") ->
+                invokeCommand(Command.Turn(command.split(" ")[1].toDouble()))
+
+            command.contains("set") ->
+                invokeCommand(Command.Set(parseSetCommand(command.split(" ")[1])))
+
+            command == "start" -> invokeCommand(Command.Start)
+
+            command == "stop" -> invokeCommand(Command.Stop)
+
         }
     }
 
@@ -31,7 +44,7 @@ class Robot(
 
     private fun move(distance: Double) {
         // Переводим угол из градусов в радианы
-        val angleRadians = toRadians(angleDegrees)
+        val angleRadians = Math.toRadians(angleDegrees)
 
         // Вычисляем смещение по осям x и y
         val deltaX = distance * cos(angleRadians)
@@ -62,56 +75,10 @@ class Robot(
         transferToCleaner("STOP")
     }
 
-    private fun transferToCleaner(message: String) {
-        println(message)
-    }
-}
-
-interface CommandParser {
-    fun parseCommand(command: String): Command
-}
-
-class CommandParserImpl : CommandParser {
-    override fun parseCommand(command: String): Command {
-
-        val splittedCommandValue = command.split(" ")[1]
-
-        return when {
-            command.contains("move") ->
-                Command.Move(splittedCommandValue.toDouble())
-
-            command.contains("turn") ->
-                Command.Turn(splittedCommandValue.toDouble())
-
-            command.contains("set") ->
-                (Command.Set(parseSetCommand(splittedCommandValue)))
-
-            command == "start" -> Command.Start
-
-            command == "stop" -> Command.Stop
-            else -> throw Exception("Unknown command")
-        }
-    }
-
     private fun parseSetCommand(command: String) = when (command) {
         "water" -> SetParams.WATER
         "soap" -> SetParams.SOAP
         "brush" -> SetParams.BRUSH
         else -> throw Exception("incorrect command")
     }
-
-}
-
-sealed interface Command {
-    data class Move(val distance: Double) : Command
-    data class Turn(val angle: Double) : Command
-    data class Set(val setParam: SetParams) : Command
-    data object Start : Command
-    data object Stop : Command
-}
-
-enum class SetParams {
-    WATER,
-    SOAP,
-    BRUSH
 }
