@@ -4,6 +4,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.PI
 
+// Внешний апи
 interface RobotCleaner {
     fun move(distance: Int)
     fun turn(angle: Int)
