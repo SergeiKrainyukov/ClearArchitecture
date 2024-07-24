@@ -41,13 +41,13 @@ class CleanerApiImpl : CleanerApi {
     override fun activateCleaner(code: List<String>) {
         for (command in code) {
             val cmd = command.split(' ')
-            when (cmd[0]) {
-                "move" -> cleanerState = move(transferToCleaner, cmd[1].toInt(), cleanerState)
-                "turn" -> cleanerState = turn(transferToCleaner, cmd[1].toInt(), cleanerState)
-                "set" -> cleanerState = setState(transferToCleaner, cmd[1], cleanerState)
-                "start" -> cleanerState = start(transferToCleaner, cleanerState)
-                "stop" -> cleanerState = stop(transferToCleaner, cleanerState)
-            }
+//            when (cmd[0]) {
+//                "move" -> cleanerState = move(transferToCleaner, cmd[1].toInt(), cleanerState)
+//                "turn" -> cleanerState = turn(transferToCleaner, cmd[1].toInt(), cleanerState)
+//                "set" -> cleanerState = setState(transferToCleaner, cmd[1], cleanerState)
+//                "start" -> cleanerState = start(transferToCleaner, cleanerState)
+//                "stop" -> cleanerState = stop(transferToCleaner, cleanerState)
+//            }
         }
     }
 }
