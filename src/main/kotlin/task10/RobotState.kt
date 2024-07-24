@@ -2,7 +2,6 @@ package task10
 
 import task5.*
 
-// Интерпретация набора команд в конкатенативном стиле
 fun executeCommands(
     transfer: (String) -> Unit,
     commandStream: String,
