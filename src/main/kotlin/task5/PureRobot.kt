@@ -59,7 +59,7 @@ fun transferToCleaner(message: Any) {
 }
 
 // Перемещение
-fun move(transfer: (Any) -> Unit, dist: Int, state: RobotState): RobotState {
+fun move(transfer: (String) -> Unit, dist: Int, state: RobotState): RobotState {
     val angleRads = state.angle * (PI / 180.0)
     val newState = RobotState(
         state.x + dist * cos(angleRads),
@@ -72,7 +72,7 @@ fun move(transfer: (Any) -> Unit, dist: Int, state: RobotState): RobotState {
 }
 
 // Поворот
-fun turn(transfer: (Any) -> Unit, turnAngle: Int, state: RobotState): RobotState {
+fun turn(transfer: (String) -> Unit, turnAngle: Int, state: RobotState): RobotState {
     val newState = RobotState(
         state.x,
         state.y,
@@ -84,7 +84,7 @@ fun turn(transfer: (Any) -> Unit, turnAngle: Int, state: RobotState): RobotState
 }
 
 // Установка режима работы
-fun setState(transfer: (Any) -> Unit, newInternalState: String, state: RobotState): RobotState {
+fun setState(transfer: (String) -> Unit, newInternalState: String, state: RobotState): RobotState {
     val selfState = when (newInternalState) {
         "water" -> WATER
         "soap" -> SOAP
@@ -102,19 +102,19 @@ fun setState(transfer: (Any) -> Unit, newInternalState: String, state: RobotStat
 }
 
 // Начало чистки
-fun start(transfer: (Any) -> Unit, state: RobotState): RobotState {
+fun start(transfer: (String) -> Unit, state: RobotState): RobotState {
     transfer("START WITH(${state.state})")
     return state
 }
 
 // Конец чистки
-fun stop(transfer: (Any) -> Unit, state: RobotState): RobotState {
+fun stop(transfer: (String) -> Unit, state: RobotState): RobotState {
     transfer("STOP")
     return state
 }
 
 // Интерпретация набора команд
-fun make(transfer: (Any) -> Unit, code: List<String>, state: RobotState): RobotState {
+fun make(transfer: (String) -> Unit, code: List<String>, state: RobotState): RobotState {
     var currentState = state
     for (command in code) {
         val cmd = command.split(' ')
